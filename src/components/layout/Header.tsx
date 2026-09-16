@@ -13,8 +13,8 @@ const NAV_LINKS = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-4 px-4 sm:px-6">
+    <header className="sticky top-0 z-40 px-4 py-2 sm:px-6">
+      <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-4 rounded-xl border border-border-strong/60 bg-surface/95 px-4 shadow-[0_5px_20px_rgb(74_50_28/0.13)] backdrop-blur sm:px-5">
         <Logo />
 
         <div className="hidden flex-1 justify-center md:flex md:max-w-md md:mx-auto">

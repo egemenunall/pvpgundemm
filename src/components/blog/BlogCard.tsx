@@ -8,7 +8,7 @@ export function BlogCard({ post }: { post: BlogPostRow }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex flex-col overflow-hidden rounded-md border border-border bg-surface shadow-[0_2px_10px_rgb(74_50_28/0.07)] transition-all hover:border-border-strong hover:shadow-[0_5px_18px_rgb(74_50_28/0.14)]"
+      className="group flex flex-col overflow-hidden rounded-lg border border-border-strong/55 bg-card shadow-[0_4px_14px_rgb(74_50_28/0.13)] transition-all hover:-translate-y-0.5 hover:bg-card-hover hover:shadow-[0_8px_24px_rgb(74_50_28/0.2)]"
     >
       <div className="relative flex aspect-[16/9] items-center justify-center overflow-hidden border-b border-border bg-background">
         {post.cover_image_url ? (

@@ -23,8 +23,8 @@ export default async function HomePage() {
       <HeroAd />
 
       <section className="mt-10">
-        <div className="flex flex-wrap items-end justify-between gap-2">
-          <div>
+        <div className="relative flex flex-col items-center gap-2 text-center">
+          <div className="mx-auto">
             <h1 className="text-xl font-semibold text-text-primary sm:text-2xl">
               Bu Hafta Açılan Serverlar
             </h1>
@@ -34,7 +34,7 @@ export default async function HomePage() {
           </div>
           <Link
             href="/serverlar?segment=bu-hafta"
-            className="flex items-center gap-1 text-sm font-medium text-accent hover:underline"
+            className="flex items-center gap-1 text-sm font-medium text-accent hover:underline sm:absolute sm:bottom-0 sm:right-0"
           >
             Tümünü Gör
             <ArrowRight className="h-3.5 w-3.5" />

@@ -5,6 +5,8 @@
   --background: #f2e9d8;
   --surface: #fbf6ec;
   --surface-hover: #eee1cc;
+  --card: #e7d3b5;
+  --card-hover: #dfc49c;
 
   --border: #d2bea0;
   --border-strong: #a98250;
@@ -27,6 +29,8 @@
   --color-background: var(--background);
   --color-surface: var(--surface);
   --color-surface-hover: var(--surface-hover);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
 
