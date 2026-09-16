@@ -5,6 +5,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/auth/require-admin";
+import { validateUploadSize } from "@/lib/utils";
 
 const adSchema = z.object({
   title: z.string().trim().min(2).max(150),
@@ -20,8 +21,16 @@ export interface AdFormState {
   success?: boolean;
 }
 
-async function uploadImage(file: File | null, prefix: string): Promise<string | null> {
-  if (!file || file.size === 0) return null;
+/** Dosya yoksa boş sonuç, boyut aşımı veya yükleme hatasında `error` döner. */
+async function uploadImage(
+  file: File | null,
+  prefix: string
+): Promise<{ url?: string; error?: string }> {
+  if (!file || file.size === 0) return {};
+
+  const sizeError = validateUploadSize(file);
+  if (sizeError) return { error: sizeError };
+
   const admin = createAdminClient();
   const ext = file.name.split(".").pop() || "png";
   const path = `${prefix}-${Date.now()}.${ext}`;
@@ -32,10 +41,10 @@ async function uploadImage(file: File | null, prefix: string): Promise<string | 
   });
   if (error) {
     console.error("uploadImage(ads)", error);
-    return null;
+    return { error: "Görsel yüklenemedi." };
   }
   const { data } = admin.storage.from("advertisements").getPublicUrl(path);
-  return data.publicUrl;
+  return { url: data.publicUrl };
 }
 
 function readCheckbox(formData: FormData, name: string): boolean {
@@ -50,20 +59,24 @@ export async function createAdAction(_prev: AdFormState, formData: FormData): Pr
     return { error: parsed.error.issues[0]?.message ?? "Form geçersiz." };
   }
 
-  const imageFile = formData.get("image") as File | null;
-  const imageUrl = await uploadImage(imageFile, "ad");
-  if (!imageUrl) {
+  const image = await uploadImage(formData.get("image") as File | null, "ad");
+  if (image.error) return { error: image.error };
+  if (!image.url) {
     return { error: "Görsel yüklenemedi. Bir görsel seçtiğinizden emin olun." };
   }
-  const mobileImageFile = formData.get("mobile_image") as File | null;
-  const mobileImageUrl = await uploadImage(mobileImageFile, "ad-mobile");
+
+  const mobileImage = await uploadImage(
+    formData.get("mobile_image") as File | null,
+    "ad-mobile"
+  );
+  if (mobileImage.error) return { error: mobileImage.error };
 
   const supabase = await createClient();
   const { error } = await supabase.from("advertisements").insert({
     title: parsed.data.title,
     type: parsed.data.type,
-    image_url: imageUrl,
-    mobile_image_url: mobileImageUrl,
+    image_url: image.url,
+    mobile_image_url: mobileImage.url ?? null,
     link_url: parsed.data.link_url || null,
     start_date: parsed.data.start_date || null,
     end_date: parsed.data.end_date || null,
@@ -93,10 +106,14 @@ export async function updateAdAction(
     return { error: parsed.error.issues[0]?.message ?? "Form geçersiz." };
   }
 
-  const imageFile = formData.get("image") as File | null;
-  const imageUrl = await uploadImage(imageFile, "ad");
-  const mobileImageFile = formData.get("mobile_image") as File | null;
-  const mobileImageUrl = await uploadImage(mobileImageFile, "ad-mobile");
+  const image = await uploadImage(formData.get("image") as File | null, "ad");
+  if (image.error) return { error: image.error };
+
+  const mobileImage = await uploadImage(
+    formData.get("mobile_image") as File | null,
+    "ad-mobile"
+  );
+  if (mobileImage.error) return { error: mobileImage.error };
 
   const supabase = await createClient();
   const { error } = await supabase
@@ -104,8 +121,8 @@ export async function updateAdAction(
     .update({
       title: parsed.data.title,
       type: parsed.data.type,
-      ...(imageUrl ? { image_url: imageUrl } : {}),
-      ...(mobileImageUrl ? { mobile_image_url: mobileImageUrl } : {}),
+      ...(image.url ? { image_url: image.url } : {}),
+      ...(mobileImage.url ? { mobile_image_url: mobileImage.url } : {}),
       link_url: parsed.data.link_url || null,
       start_date: parsed.data.start_date || null,
       end_date: parsed.data.end_date || null,

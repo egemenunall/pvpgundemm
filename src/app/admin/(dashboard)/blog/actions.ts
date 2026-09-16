@@ -6,7 +6,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/auth/require-admin";
-import { slugify } from "@/lib/utils";
+import { slugify, validateUploadSize } from "@/lib/utils";
 
 const postSchema = z.object({
   title: z.string().trim().min(3).max(200),
@@ -22,9 +22,16 @@ export interface PostFormState {
   error?: string;
 }
 
-async function uploadCoverIfProvided(formData: FormData, slug: string): Promise<string | null> {
+/** Dosya yoksa boş sonuç, boyut aşımı veya yükleme hatasında `error` döner. */
+async function uploadCoverIfProvided(
+  formData: FormData,
+  slug: string
+): Promise<{ url?: string; error?: string }> {
   const file = formData.get("cover_image") as File | null;
-  if (!file || file.size === 0) return null;
+  if (!file || file.size === 0) return {};
+
+  const sizeError = validateUploadSize(file);
+  if (sizeError) return { error: sizeError };
 
   const admin = createAdminClient();
   const ext = file.name.split(".").pop() || "jpg";
@@ -36,10 +43,10 @@ async function uploadCoverIfProvided(formData: FormData, slug: string): Promise<
   });
   if (error) {
     console.error("uploadCoverIfProvided", error);
-    return null;
+    return { error: "Kapak görseli yüklenemedi." };
   }
   const { data } = admin.storage.from("blog-images").getPublicUrl(path);
-  return data.publicUrl;
+  return { url: data.publicUrl };
 }
 
 export async function createPostAction(
@@ -54,14 +61,15 @@ export async function createPostAction(
   }
 
   const slug = slugify(parsed.data.slug || parsed.data.title);
-  const coverUrl = await uploadCoverIfProvided(formData, slug);
+  const cover = await uploadCoverIfProvided(formData, slug);
+  if (cover.error) return { error: cover.error };
 
   const supabase = await createClient();
   const { error } = await supabase.from("blog_posts").insert({
     title: parsed.data.title,
     slug,
     excerpt: parsed.data.excerpt || null,
-    cover_image_url: coverUrl,
+    cover_image_url: cover.url ?? null,
     content: parsed.data.content,
     seo_title: parsed.data.seo_title || null,
     seo_description: parsed.data.seo_description || null,
@@ -93,7 +101,8 @@ export async function updatePostAction(
   }
 
   const slug = slugify(parsed.data.slug || parsed.data.title);
-  const coverUrl = await uploadCoverIfProvided(formData, slug);
+  const cover = await uploadCoverIfProvided(formData, slug);
+  if (cover.error) return { error: cover.error };
 
   const supabase = await createClient();
 
@@ -111,7 +120,7 @@ export async function updatePostAction(
       title: parsed.data.title,
       slug,
       excerpt: parsed.data.excerpt || null,
-      ...(coverUrl ? { cover_image_url: coverUrl } : {}),
+      ...(cover.url ? { cover_image_url: cover.url } : {}),
       content: parsed.data.content,
       seo_title: parsed.data.seo_title || null,
       seo_description: parsed.data.seo_description || null,

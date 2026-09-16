@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import type { AdFormState } from "@/app/admin/(dashboard)/advertisements/actions";
 import type { AdvertisementRow } from "@/lib/types";
+import { MAX_UPLOAD_MB, validateUploadSize } from "@/lib/utils";
 
 const AD_TYPES = [
   { value: "top", label: "Üst (1400x200)" },
@@ -63,6 +64,17 @@ export function AdFormDialog({
     }
   }, [state]);
 
+  // Sunucuya boşa büyük istek göndermemek için dosya seçildiği anda uyar.
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const sizeError = validateUploadSize(file);
+    if (sizeError) {
+      toast.error(sizeError);
+      e.target.value = "";
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -95,12 +107,28 @@ export function AdFormDialog({
 
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="ad-image">Görsel (Desktop) {ad && "— boş bırakılırsa mevcut kalır"}</Label>
-            <Input id="ad-image" name="image" type="file" accept="image/*,.gif" required={!ad} />
+            <Input
+              id="ad-image"
+              name="image"
+              type="file"
+              accept="image/*,.gif"
+              required={!ad}
+              onChange={handleFileChange}
+            />
+            <p className="text-xs text-text-muted">
+              GIF desteklenir. Dosya başına en fazla {MAX_UPLOAD_MB} MB.
+            </p>
           </div>
 
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="ad-mobile-image">Mobil Görsel (opsiyonel)</Label>
-            <Input id="ad-mobile-image" name="mobile_image" type="file" accept="image/*,.gif" />
+            <Input
+              id="ad-mobile-image"
+              name="mobile_image"
+              type="file"
+              accept="image/*,.gif"
+              onChange={handleFileChange}
+            />
           </div>
 
           <div className="flex flex-col gap-1.5">

@@ -8,6 +8,30 @@ export function cn(...inputs: ClassValue[]) {
 export const TIMEZONE = "Europe/Istanbul";
 
 /**
+ * Görsel yükleme sınırı — `next.config.ts` içindeki
+ * `serverActions.bodySizeLimit` ile hizalı tutulmalı.
+ * Aynı istekte iki dosya (desktop + mobil) gönderilebildiği için
+ * tek dosya sınırı toplam limitin altında bırakıldı.
+ */
+export const MAX_UPLOAD_MB = 3.5;
+export const MAX_UPLOAD_BYTES = Math.floor(MAX_UPLOAD_MB * 1024 * 1024);
+
+export function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+/**
+ * Yüklenecek dosyayı boyut açısından doğrular.
+ * Sınır aşılırsa kullanıcıya gösterilecek Türkçe mesaj döner.
+ */
+export function validateUploadSize(file: File): string | null {
+  if (file.size <= MAX_UPLOAD_BYTES) return null;
+  return `Dosya çok büyük (${formatFileSize(file.size)}). En fazla ${MAX_UPLOAD_MB} MB yükleyebilirsiniz.`;
+}
+
+/**
  * Türkçe karakterleri de destekleyen basit slugify.
  */
 export function slugify(input: string): string {

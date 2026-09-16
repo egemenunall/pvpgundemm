@@ -6,7 +6,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/auth/require-admin";
-import { slugify } from "@/lib/utils";
+import { slugify, validateUploadSize } from "@/lib/utils";
 
 const serverSchema = z.object({
   name: z.string().trim().min(2).max(100),
@@ -31,9 +31,16 @@ export interface ServerFormState {
   error?: string;
 }
 
-async function uploadLogoIfProvided(formData: FormData, slug: string): Promise<string | null> {
+/** Dosya yoksa boş sonuç, boyut aşımı veya yükleme hatasında `error` döner. */
+async function uploadLogoIfProvided(
+  formData: FormData,
+  slug: string
+): Promise<{ url?: string; error?: string }> {
   const file = formData.get("logo") as File | null;
-  if (!file || file.size === 0) return null;
+  if (!file || file.size === 0) return {};
+
+  const sizeError = validateUploadSize(file);
+  if (sizeError) return { error: sizeError };
 
   const admin = createAdminClient();
   const ext = file.name.split(".").pop() || "png";
@@ -46,11 +53,11 @@ async function uploadLogoIfProvided(formData: FormData, slug: string): Promise<s
 
   if (error) {
     console.error("uploadLogoIfProvided", error);
-    return null;
+    return { error: "Logo yüklenemedi." };
   }
 
   const { data } = admin.storage.from("server-logos").getPublicUrl(path);
-  return data.publicUrl;
+  return { url: data.publicUrl };
 }
 
 function parseFeatures(raw?: string): string[] {
@@ -73,13 +80,14 @@ export async function createServerAction(
   }
 
   const slug = slugify(parsed.data.slug || parsed.data.name);
-  const logoUrl = await uploadLogoIfProvided(formData, slug);
+  const logo = await uploadLogoIfProvided(formData, slug);
+  if (logo.error) return { error: logo.error };
 
   const supabase = await createClient();
   const { error } = await supabase.from("servers").insert({
     name: parsed.data.name,
     slug,
-    logo_url: logoUrl,
+    logo_url: logo.url ?? null,
     opening_date: parsed.data.opening_date,
     opening_time: parsed.data.opening_time,
     type: parsed.data.type,
@@ -117,7 +125,8 @@ export async function updateServerAction(
   }
 
   const slug = slugify(parsed.data.slug || parsed.data.name);
-  const logoUrl = await uploadLogoIfProvided(formData, slug);
+  const logo = await uploadLogoIfProvided(formData, slug);
+  if (logo.error) return { error: logo.error };
 
   const supabase = await createClient();
   const { error } = await supabase
@@ -125,7 +134,7 @@ export async function updateServerAction(
     .update({
       name: parsed.data.name,
       slug,
-      ...(logoUrl ? { logo_url: logoUrl } : {}),
+      ...(logo.url ? { logo_url: logo.url } : {}),
       opening_date: parsed.data.opening_date,
       opening_time: parsed.data.opening_time,
       type: parsed.data.type,
