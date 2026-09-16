@@ -7,15 +7,20 @@ import { ParchmentEdges } from "@/components/layout/ParchmentEdges";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <>
+      {/* Parşömen kenar efekti — z-0, içeriğin arkasında kalır */}
       <ParchmentEdges />
-      <TopAd />
-      <Header />
-      <SideAd>
-        <main className="min-w-0 flex-1 pb-16 md:pb-0">{children}</main>
-      </SideAd>
-      <Footer />
-      <MobileStickyAd />
-    </div>
+
+      {/* Tüm içerik z-[1]: parşömen kenarlarının önünde, kendi içinde normal z-index hiyerarşisi korunur */}
+      <div className="relative z-[1] flex min-h-screen flex-col">
+        <TopAd />
+        <Header />
+        <SideAd>
+          <main className="min-w-0 flex-1 pb-16 md:pb-0">{children}</main>
+        </SideAd>
+        <Footer />
+        <MobileStickyAd />
+      </div>
+    </>
   );
 }
