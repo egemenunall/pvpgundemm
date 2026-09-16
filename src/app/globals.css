@@ -1,27 +1,30 @@
 @import "tailwindcss";
 
+/**
+ * Ortaçağ / dark fantasy paleti.
+ * Zemin: isli demir siyahı (sıcak alt tonlu, mavi değil).
+ * Vurgu: antik altın. İkincil vurgu: kan kırmızısı.
+ */
 :root {
-  /* Parşömen dokusu üstünde duran krem yüzeyler */
-  --background: #faf4e6;
-  --surface: #fbf7ed;
-  --surface-hover: #f3ebd8;
+  --background: #0f0c0a;
+  --surface: #1a1512;
+  --surface-hover: #241d18;
 
-  /* Eskitilmiş, ince antik bordürler */
-  --border: rgb(140 94 53 / 0.3);
-  --border-strong: rgb(107 67 34 / 0.55);
+  /* Bronz bordürler */
+  --border: #3a2f24;
+  --border-strong: #5c4a35;
 
-  /* Antik mürekkep tonları */
-  --text-primary: #1f1209;
-  --text-secondary: #5a3825;
-  --text-muted: #7d5836;
+  --text-primary: #f0e6d2;
+  --text-secondary: #b5a68d;
+  --text-muted: #7d6f5c;
 
-  /* Bronz / koyu altın — Metin2 arayüz tonu */
-  --accent: #7c4a21;
-  --accent-hover: #633917;
-  --accent-foreground: #fff8e7;
+  /* Antik altın */
+  --accent: #c9a227;
+  --accent-hover: #e0b84c;
+  --accent-foreground: #14100c;
 
-  --danger: #b91c1c;
-  --success: #15803d;
+  --danger: #c0392b;
+  --success: #5c9e5c;
 
   --radius: 0.5rem;
 }
@@ -54,28 +57,20 @@
   border-color: var(--border);
 }
 
-/**
- * Doğal parşömen dokusu — küçük küçük döşenir (repeat), böylece
- * desen net kalır ve sayfa uzadıkça kesintisiz devam eder.
- * cover DEĞİL: resim devasa büyütülmez.
- */
 html {
-  color-scheme: light;
-  background-color: #d9c9a3;
-  background-image: url("/parchment-pattern.jpg");
-  background-repeat: repeat;
-  background-size: 324px auto;
+  color-scheme: dark;
+  background-color: var(--background);
 }
 
 body {
-  background: transparent;
+  background-color: var(--background);
   color: var(--text-primary);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
 }
 
 /**
- * Kenar derinliği / eskitme overlay'i.
- * z-index: -1 → dokunun üstünde, içeriğin altında kalır (okunabilirlik korunur).
+ * Ambient ışık — üstten meşale altını, altta soluk kan kırmızısı.
+ * Viewport'a sabit, içeriğin altında (z-index: -1).
  */
 body::before {
   content: "";
@@ -83,16 +78,23 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  box-shadow: inset 0 0 100px rgb(45 25 10 / 0.35);
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgb(201 162 39 / 0.07), transparent 65%),
+    radial-gradient(ellipse 90% 55% at 50% 100%, rgb(139 26 26 / 0.05), transparent 65%);
 }
 
-/* Cinzel — başlık hiyerarşisi */
+/* Cinzel — antik yazıt hiyerarşisi */
 h1,
 h2,
 h3,
 h4 {
   font-family: var(--font-heading), "Georgia", "Times New Roman", serif;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.045em;
+}
+
+h1,
+h2 {
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
 }
 
 ::selection {
@@ -105,14 +107,14 @@ h4 {
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #cbb891;
+  background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: #7c4a21;
+  background: var(--border-strong);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #633917;
+  background: var(--accent);
 }
 
 .prose-pvp {
@@ -124,18 +126,18 @@ h4 {
   font-family: var(--font-heading), serif;
   font-size: 1.25rem;
   font-weight: 600;
+  letter-spacing: 0.045em;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
-  letter-spacing: 0.04em;
 }
 .prose-pvp h3 {
   color: var(--text-primary);
   font-family: var(--font-heading), serif;
   font-size: 1.1rem;
   font-weight: 600;
+  letter-spacing: 0.045em;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
-  letter-spacing: 0.04em;
 }
 .prose-pvp p {
   margin-bottom: 1rem;
