@@ -23,7 +23,7 @@ export function SearchBox({ className }: { className?: string }) {
         onChange={(e) => setValue(e.target.value)}
         type="search"
         placeholder="Server ara..."
-        className="h-9 w-full rounded-sm border border-border-strong/50 bg-background/75 pl-9 pr-3 text-sm text-text-primary shadow-inner placeholder:text-text-muted focus-visible:border-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
+        className="h-9 w-full rounded-lg border border-[#4a121a] bg-[#090608] pl-9 pr-3 text-sm text-[#f8fafc] placeholder:text-[#9a7a80] focus-visible:border-[#d49a36]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d49a36]/30"
       />
     </form>
   );

@@ -1,17 +1,15 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { FrameCorners } from "@/components/ui/frame-corners";
 
 function Card({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
-        "ornate-frame ornate-card relative bg-card",
+        "relative overflow-hidden rounded-xl border border-[#4a121a] bg-[#130b10] shadow-lg",
         className
       )}
       {...props}
     >
-      <FrameCorners />
       {children}
     </div>
   );

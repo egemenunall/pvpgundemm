@@ -1,30 +1,29 @@
 @import "tailwindcss";
 
-/* Sıcak krem zemin, koyu mürekkep metin ve eskitilmiş bronz vurgular. */
+/* Kömür-bordo lonca arenası. */
 :root {
-  --background: #f2e9d8;
-  --surface: #fbf6ec;
-  --surface-hover: #eee1cc;
-  --card: #e7d3b5;
-  --card-hover: #dfc49c;
+  --background: #090608;
+  --surface: #11070c;
+  --surface-hover: #1a0c12;
+  --card: #130b10;
+  --card-hover: #1c1016;
 
-  --border: #d2bea0;
-  --border-strong: #a98250;
+  --border: #4a121a;
+  --border-strong: #5c1d24;
 
-  --text-primary: #21160f;
-  --text-secondary: #5b4637;
-  --text-muted: #88725e;
+  --text-primary: #f8fafc;
+  --text-secondary: #d4b4b8;
+  --text-muted: #9a7a80;
 
-  --accent: #8a5a24;
-  --accent-hover: #6f431a;
-  --accent-foreground: #fffaf0;
+  --accent: #d49a36;
+  --accent-hover: #f59e0b;
+  --accent-foreground: #090608;
 
-  --danger: #a3342b;
-  --feature: #a3342b;
+  --danger: #991b1b;
+  --feature: #991b1b;
   --success: #3f7045;
 
-  --radius: 0.1875rem;
-  --paper-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --radius: 0.75rem;
 }
 
 @theme inline {
@@ -52,7 +51,7 @@
   --font-heading: var(--font-bitter);
 
   --radius-md: var(--radius);
-  --radius-lg: 0.25rem;
+  --radius-lg: 0.75rem;
 }
 
 * {
@@ -60,33 +59,16 @@
 }
 
 html {
-  color-scheme: light;
+  color-scheme: dark;
   background-color: var(--background);
 }
 
 body {
-  background-color: var(--background);
+  background-color: #090608;
   color: var(--text-primary);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
 }
 
-body > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* Sayfa zeminine ince kâğıt grain'i — harici dosya yok. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image: var(--paper-grain);
-  opacity: 0.035;
-}
-
-/* Bitter başlık, Manrope gövde; doğal Türkçe cümle düzeni korunur. */
 h1,
 h2,
 h3,
@@ -98,71 +80,31 @@ h4 {
   font-variant: normal;
 }
 
-/* 1px dış çizgi, 3px boşluk ve 1px iç çizgi. */
 .ornate-frame {
-  --frame-gap: var(--surface);
   position: relative;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow:
-    inset 0 0 0 3px var(--frame-gap),
-    inset 0 0 0 4px var(--border),
-    0 4px 14px rgb(74 50 28 / 0.1);
+  background: var(--surface);
 }
 
 .ornate-card {
-  --frame-gap: var(--card);
+  background: var(--card);
 }
 
-.ornate-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background-image: var(--paper-grain);
-  opacity: 0.02;
-}
-
-.ornate-card:hover {
-  --frame-gap: var(--card-hover);
-}
-
-.vip-server-card {
-  border: 2px solid var(--feature);
-  box-shadow:
-    inset 0 0 0 3px var(--frame-gap),
-    inset 0 0 0 4px rgb(163 52 43 / 0.45),
-    0 6px 18px rgb(94 43 28 / 0.18);
-}
-
-/* Kırık kenarlı, hafif dokulu kırmızı mühür. */
 .seal-badge {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   border: 0;
-  border-radius: 0;
+  border-radius: 0.25rem;
   padding: 0.2rem 0.55rem;
   background-color: var(--feature);
-  color: var(--background);
-  clip-path: polygon(4% 12%, 14% 3%, 88% 6%, 98% 18%, 95% 85%, 84% 98%, 12% 95%, 2% 80%);
-  transform: rotate(-3deg);
-  box-shadow: 0 2px 4px rgb(74 24 18 / 0.2);
-}
-
-.seal-badge::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 90 90' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
-  opacity: 0.08;
-  mix-blend-mode: multiply;
+  color: #fff2a8;
 }
 
 .section-plaque {
-  --frame-gap: var(--background);
+  background: transparent;
+  border: 0;
 }
 
 ::selection {

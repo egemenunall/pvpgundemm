@@ -67,8 +67,8 @@ export function ServerFilters() {
             className={cn(
               "rounded-sm border px-3.5 py-1.5 text-sm font-semibold transition-colors",
               segment === s.value
-                ? "border-accent bg-accent text-accent-foreground"
-                : "border-border text-text-secondary hover:text-text-primary hover:border-border-strong"
+                ? "border-[#d49a36]/60 bg-[#2a0e17] text-[#fff2a8]"
+                : "border-[#4a121a] text-[#d4b4b8] hover:border-[#d49a36]/40 hover:text-[#f8fafc]"
             )}
           >
             {s.label}

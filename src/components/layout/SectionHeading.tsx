@@ -1,12 +1,10 @@
 import type { ReactNode } from "react";
-import { FrameCorners } from "@/components/ui/frame-corners";
 import { cn } from "@/lib/utils";
 
 export function SectionHeading({
   title,
   description,
   action,
-  featured = false,
   level = "h2",
 }: {
   title: string;
@@ -18,15 +16,12 @@ export function SectionHeading({
   const Heading = level;
 
   return (
-    <div className="ornate-frame section-plaque relative px-5 py-3 text-center">
-      <FrameCorners />
-      <div className="mx-auto w-fit">
-        <Heading className="text-xl font-bold text-text-primary sm:text-2xl">{title}</Heading>
-        {featured && <span className="mx-auto mt-2 block h-0.5 w-16 bg-feature" />}
-        {description && <div className="mt-1.5 text-sm text-text-secondary">{description}</div>}
-      </div>
+    <div className="relative text-center">
+      <Heading className="text-2xl font-bold tracking-wide text-white">{title}</Heading>
+      <span className="mx-auto mt-2 block h-px w-24 bg-[#d49a36]" />
+      {description && <div className="mt-2 text-sm text-[#d4b4b8]">{description}</div>}
       {action && (
-        <div className="mt-2 flex justify-center sm:absolute sm:right-5 sm:top-1/2 sm:mt-0 sm:-translate-y-1/2">
+        <div className="mt-2 flex justify-center sm:absolute sm:right-0 sm:top-0 sm:mt-0">
           {action}
         </div>
       )}
@@ -36,15 +31,6 @@ export function SectionHeading({
 
 export function CloudDivider({ className }: { className?: string }) {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 360 20"
-      className={cn("mx-auto h-5 w-full max-w-sm text-border-strong/65", className)}
-      fill="none"
-    >
-      <path d="M0 10h125c8 0 8-7 16-7 7 0 8 7 15 7 8 0 8-5 16-5 6 0 8 5 8 5" stroke="currentColor" />
-      <path d="M360 10H235c-8 0-8 7-16 7-7 0-8-7-15-7-8 0-8 5-16 5-6 0-8-5-8-5" stroke="currentColor" />
-      <path d="M180 4l6 6-6 6-6-6 6-6Z" stroke="currentColor" />
-    </svg>
+    <div className={cn("mx-auto h-px w-full max-w-sm bg-[#4a121a]", className)} aria-hidden="true" />
   );
 }

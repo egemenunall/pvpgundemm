@@ -4,7 +4,7 @@ import { BlogCard } from "@/components/blog/BlogCard";
 export function BlogList({ posts }: { posts: BlogPostRow[] }) {
   if (posts.length === 0) {
     return (
-      <div className="ornate-frame section-plaque py-9 text-center text-sm text-text-secondary">
+      <div className="rounded-xl border border-[#4a121a] bg-[#130b10] py-9 text-center text-sm text-[#d4b4b8]">
         Meydandan henüz haber yok; ilk duyuru yolda.
       </div>
     );
