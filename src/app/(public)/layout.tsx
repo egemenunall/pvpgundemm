@@ -3,10 +3,12 @@ import { Footer } from "@/components/layout/Footer";
 import { TopAd } from "@/components/ads/TopAd";
 import { SideAd } from "@/components/ads/SideAd";
 import { MobileStickyAd } from "@/components/ads/MobileStickyAd";
+import { ParchmentEdges } from "@/components/layout/ParchmentEdges";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
+      <ParchmentEdges />
       <TopAd />
       <Header />
       <SideAd>
