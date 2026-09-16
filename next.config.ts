@@ -4,9 +4,9 @@ const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
       // Varsayılan 1MB, animasyonlu GIF reklamlar için yetersiz.
-      // Vercel'in serverless istek gövdesi tavanı 4.5MB olduğundan
-      // bunun üstüne çıkmak işe yaramaz; multipart overhead'i için pay bırakıldı.
-      bodySizeLimit: "4mb",
+      // 4.5MB Vercel'in serverless istek gövdesi tavanı — daha yükseği
+      // platform tarafında reddedilir, uygulamaya ulaşmaz.
+      bodySizeLimit: "4.5mb",
     },
   },
   images: {

@@ -5,7 +5,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/auth/require-admin";
-import { validateUploadSize } from "@/lib/utils";
+import { validateUploadTotal } from "@/lib/utils";
 
 const adSchema = z.object({
   title: z.string().trim().min(2).max(150),
@@ -21,15 +21,12 @@ export interface AdFormState {
   success?: boolean;
 }
 
-/** Dosya yoksa boş sonuç, boyut aşımı veya yükleme hatasında `error` döner. */
+/** Dosya yoksa boş sonuç, yükleme hatasında `error` döner. */
 async function uploadImage(
   file: File | null,
   prefix: string
 ): Promise<{ url?: string; error?: string }> {
   if (!file || file.size === 0) return {};
-
-  const sizeError = validateUploadSize(file);
-  if (sizeError) return { error: sizeError };
 
   const admin = createAdminClient();
   const ext = file.name.split(".").pop() || "png";
@@ -59,16 +56,19 @@ export async function createAdAction(_prev: AdFormState, formData: FormData): Pr
     return { error: parsed.error.issues[0]?.message ?? "Form geçersiz." };
   }
 
-  const image = await uploadImage(formData.get("image") as File | null, "ad");
+  const imageFile = formData.get("image") as File | null;
+  const mobileImageFile = formData.get("mobile_image") as File | null;
+
+  const totalError = validateUploadTotal([imageFile, mobileImageFile]);
+  if (totalError) return { error: totalError };
+
+  const image = await uploadImage(imageFile, "ad");
   if (image.error) return { error: image.error };
   if (!image.url) {
     return { error: "Görsel yüklenemedi. Bir görsel seçtiğinizden emin olun." };
   }
 
-  const mobileImage = await uploadImage(
-    formData.get("mobile_image") as File | null,
-    "ad-mobile"
-  );
+  const mobileImage = await uploadImage(mobileImageFile, "ad-mobile");
   if (mobileImage.error) return { error: mobileImage.error };
 
   const supabase = await createClient();
@@ -106,13 +106,16 @@ export async function updateAdAction(
     return { error: parsed.error.issues[0]?.message ?? "Form geçersiz." };
   }
 
-  const image = await uploadImage(formData.get("image") as File | null, "ad");
+  const imageFile = formData.get("image") as File | null;
+  const mobileImageFile = formData.get("mobile_image") as File | null;
+
+  const totalError = validateUploadTotal([imageFile, mobileImageFile]);
+  if (totalError) return { error: totalError };
+
+  const image = await uploadImage(imageFile, "ad");
   if (image.error) return { error: image.error };
 
-  const mobileImage = await uploadImage(
-    formData.get("mobile_image") as File | null,
-    "ad-mobile"
-  );
+  const mobileImage = await uploadImage(mobileImageFile, "ad-mobile");
   if (mobileImage.error) return { error: mobileImage.error };
 
   const supabase = await createClient();

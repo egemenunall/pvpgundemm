@@ -8,12 +8,14 @@ export function cn(...inputs: ClassValue[]) {
 export const TIMEZONE = "Europe/Istanbul";
 
 /**
- * Görsel yükleme sınırı — `next.config.ts` içindeki
- * `serverActions.bodySizeLimit` ile hizalı tutulmalı.
- * Aynı istekte iki dosya (desktop + mobil) gönderilebildiği için
- * tek dosya sınırı toplam limitin altında bırakıldı.
+ * Tek istekte gönderilebilecek toplam görsel boyutu.
+ *
+ * `next.config.ts` içindeki `serverActions.bodySizeLimit` 4.5MB'a ayarlı;
+ * bu da Vercel'in serverless istek gövdesi tavanı. Limit ham HTTP gövdesine
+ * uygulandığı için multipart boundary/başlıkları ve metin alanları da sayılır —
+ * o yüzden dosya bütçesi 4.3MB'da tutulup ~200KB pay bırakıldı.
  */
-export const MAX_UPLOAD_MB = 3.5;
+export const MAX_UPLOAD_MB = 4.3;
 export const MAX_UPLOAD_BYTES = Math.floor(MAX_UPLOAD_MB * 1024 * 1024);
 
 export function formatFileSize(bytes: number): string {
@@ -22,13 +24,21 @@ export function formatFileSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-/**
- * Yüklenecek dosyayı boyut açısından doğrular.
- * Sınır aşılırsa kullanıcıya gösterilecek Türkçe mesaj döner.
- */
+/** Tek dosyalık formlar (server logosu, blog kapağı) için boyut doğrulaması. */
 export function validateUploadSize(file: File): string | null {
   if (file.size <= MAX_UPLOAD_BYTES) return null;
   return `Dosya çok büyük (${formatFileSize(file.size)}). En fazla ${MAX_UPLOAD_MB} MB yükleyebilirsiniz.`;
+}
+
+/**
+ * Aynı istekte birden fazla dosya gönderen formlar (reklam: desktop + mobil)
+ * için TOPLAM boyut doğrulaması. Sınırı aşan tek tek dosyalar değil,
+ * isteğin bütünü olduğu için toplam üzerinden kontrol edilir.
+ */
+export function validateUploadTotal(files: (File | null | undefined)[]): string | null {
+  const total = files.reduce((sum, file) => sum + (file?.size ?? 0), 0);
+  if (total <= MAX_UPLOAD_BYTES) return null;
+  return `Görsellerin toplam boyutu çok büyük (${formatFileSize(total)}). Tek seferde en fazla ${MAX_UPLOAD_MB} MB gönderebilirsiniz.`;
 }
 
 /**

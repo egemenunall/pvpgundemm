@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import type { AdFormState } from "@/app/admin/(dashboard)/advertisements/actions";
 import type { AdvertisementRow } from "@/lib/types";
-import { MAX_UPLOAD_MB, validateUploadSize } from "@/lib/utils";
+import { MAX_UPLOAD_MB, validateUploadTotal } from "@/lib/utils";
 
 const AD_TYPES = [
   { value: "top", label: "Üst (1400x200)" },
@@ -65,13 +65,22 @@ export function AdFormDialog({
   }, [state]);
 
   // Sunucuya boşa büyük istek göndermemek için dosya seçildiği anda uyar.
+  // Limit isteğin bütününe uygulandığı için iki input'un toplamı kontrol edilir.
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const sizeError = validateUploadSize(file);
+    const input = e.target;
+    if (!input.files?.[0]) return;
+
+    const form = input.form;
+    const files = form
+      ? Array.from(form.querySelectorAll<HTMLInputElement>('input[type="file"]')).map(
+          (el) => el.files?.[0] ?? null
+        )
+      : [input.files[0]];
+
+    const sizeError = validateUploadTotal(files);
     if (sizeError) {
       toast.error(sizeError);
-      e.target.value = "";
+      input.value = "";
     }
   }
 
@@ -116,7 +125,7 @@ export function AdFormDialog({
               onChange={handleFileChange}
             />
             <p className="text-xs text-text-muted">
-              GIF desteklenir. Dosya başına en fazla {MAX_UPLOAD_MB} MB.
+              GIF desteklenir. Desktop + mobil görsel toplamı en fazla {MAX_UPLOAD_MB} MB.
             </p>
           </div>
 
