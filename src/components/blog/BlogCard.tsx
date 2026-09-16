@@ -8,9 +8,9 @@ export function BlogCard({ post }: { post: BlogPostRow }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex flex-col overflow-hidden rounded-md border border-border bg-surface transition-colors hover:border-border-strong"
+      className="group flex flex-col overflow-hidden rounded-lg border border-border bg-surface/60 shadow-sm backdrop-blur-sm transition-colors hover:border-border-strong"
     >
-      <div className="relative flex aspect-[16/9] items-center justify-center overflow-hidden border-b border-border bg-background">
+      <div className="relative flex aspect-[16/9] items-center justify-center overflow-hidden border-b border-border bg-surface/40">
         {post.cover_image_url ? (
           <Image
             src={post.cover_image_url}

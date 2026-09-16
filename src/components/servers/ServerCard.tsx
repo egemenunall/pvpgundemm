@@ -15,11 +15,11 @@ export function ServerCard({ server }: { server: ServerRow }) {
     <Link
       href={`/server/${server.slug}`}
       className={cn(
-        "group flex flex-col overflow-hidden rounded-md border bg-surface transition-colors hover:border-border-strong",
-        highlighted ? "border-accent/30" : "border-border"
+        "group flex flex-col overflow-hidden rounded-lg border bg-surface/60 shadow-sm backdrop-blur-sm transition-colors hover:border-border-strong",
+        highlighted ? "border-accent/40" : "border-border"
       )}
     >
-      <div className="relative aspect-[16/9] w-full flex-none overflow-hidden bg-background">
+      <div className="relative aspect-[16/9] w-full flex-none overflow-hidden bg-surface/40">
         {server.logo_url ? (
           <Image
             src={server.logo_url}
