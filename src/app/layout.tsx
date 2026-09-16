@@ -54,7 +54,7 @@ export default function RootLayout({
       <body className="min-h-screen antialiased">
         {children}
         <Toaster
-          theme="dark"
+          theme="light"
           position="top-center"
           toastOptions={{
             style: {

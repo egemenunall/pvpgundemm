@@ -15,7 +15,7 @@ export function ServerCard({ server }: { server: ServerRow }) {
     <Link
       href={`/server/${server.slug}`}
       className={cn(
-        "group flex flex-col overflow-hidden rounded-md border bg-surface transition-all hover:border-border-strong hover:shadow-[0_0_0_1px_rgb(201_162_39/0.25),0_4px_20px_-4px_rgb(0_0_0/0.6)]",
+        "group flex flex-col overflow-hidden rounded-md border bg-surface shadow-[0_2px_10px_rgb(74_50_28/0.07)] transition-all hover:border-border-strong hover:shadow-[0_5px_18px_rgb(74_50_28/0.14)]",
         highlighted ? "border-accent/35" : "border-border"
       )}
     >
