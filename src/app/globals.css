@@ -1,19 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5e8c8;
-  --surface: #ecdab0;
-  --surface-hover: #e4cc9c;
-  --border: #c8a070;
-  --border-strong: #a07838;
+  /* Parşömen üstü içerik renkleri */
+  --background: #f0ddb8;
+  --surface: #e6cfa0;
+  --surface-hover: #dcc490;
 
-  --text-primary: #2c1505;
-  --text-secondary: #6b3c18;
-  --text-muted: #9a7040;
+  --border: #b89050;
+  --border-strong: #8c6828;
 
-  --accent: #8b4513;
-  --accent-hover: #6b3010;
-  --accent-foreground: #f5e8c8;
+  /* Koyu kahve yazı — antik ferman estetiği */
+  --text-primary: #1a0f0a;
+  --text-secondary: #4a2510;
+  --text-muted: #7a5428;
+
+  --accent: #7a3010;
+  --accent-hover: #5a2008;
+  --accent-foreground: #f0ddb8;
 
   --danger: #b91c1c;
   --success: #15803d;
@@ -40,6 +43,7 @@
   --color-success: var(--success);
 
   --font-sans: var(--font-inter);
+  --font-heading: var(--font-cinzel);
 
   --radius-md: var(--radius);
 }
@@ -48,40 +52,25 @@
   border-color: var(--border);
 }
 
+/* Dış arka plan — parşömenin çerçevesi koyu/siyah */
 html {
   color-scheme: light;
+  background-color: #0a0806;
 }
 
 body {
-  /* Parşömen doku katmanları:
-     1) İnce diyagonal çizgi dokusu (kağıt lifi hissi)
-     2) Orta kısımda parlak krem alan (kağıdın soluk yeri)
-     3) Köşelerde ve kenarlarda koyu kahve lekeleri (yaşlanma)
-     4) Kenar karartma / vignette
-  */
-  background-color: #c8a464;
-  background-image:
-    repeating-linear-gradient(
-      42deg,
-      transparent 0,
-      transparent 3px,
-      rgba(140, 95, 35, 0.055) 3px,
-      rgba(140, 95, 35, 0.055) 4px
-    ),
-    repeating-linear-gradient(
-      -37deg,
-      transparent 0,
-      transparent 5px,
-      rgba(90, 55, 20, 0.04) 5px,
-      rgba(90, 55, 20, 0.04) 6px
-    ),
-    radial-gradient(ellipse 90% 75% at 52% 42%, #f5e8c8 0%, #e8d4a0 45%, transparent 70%),
-    radial-gradient(ellipse 40% 50% at 20% 74%, rgba(170, 115, 50, 0.5) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 80% 18%, rgba(185, 130, 60, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse 35% 45% at 68% 88%, rgba(155, 105, 45, 0.35) 0%, transparent 50%),
-    radial-gradient(ellipse 115% 115% at 50% 50%, transparent 22%, rgba(72, 36, 8, 0.72) 100%);
+  background-color: #0a0806;
   color: var(--text-primary);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+}
+
+/* Cinzel — başlık hiyerarşisi */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading), "Georgia", "Times New Roman", serif;
+  letter-spacing: 0.04em;
 }
 
 ::selection {
@@ -89,20 +78,20 @@ body {
   color: var(--accent-foreground);
 }
 
-/* İnce, düşük kontrastlı scrollbar */
+/* Scrollbar — koyu dış arka plana uyumlu */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: #0a0806;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
+  background: #4a2510;
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: #7a3010;
 }
 
 .prose-pvp {
@@ -111,17 +100,21 @@ body {
 }
 .prose-pvp h2 {
   color: var(--text-primary);
+  font-family: var(--font-heading), serif;
   font-size: 1.25rem;
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
+  letter-spacing: 0.04em;
 }
 .prose-pvp h3 {
   color: var(--text-primary);
+  font-family: var(--font-heading), serif;
   font-size: 1.1rem;
   font-weight: 600;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
+  letter-spacing: 0.04em;
 }
 .prose-pvp p {
   margin-bottom: 1rem;
