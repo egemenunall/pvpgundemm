@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BlogList } from "@/components/blog/BlogList";
+import { SectionHeading } from "@/components/layout/SectionHeading";
 import { getPublishedPosts } from "@/lib/data/blog";
 
 export const metadata: Metadata = {
@@ -14,11 +15,12 @@ export default async function BlogPage() {
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-6 sm:py-8">
-      <h1 className="text-xl font-semibold text-text-primary sm:text-2xl">Blog</h1>
-      <p className="mt-1 text-sm text-text-secondary">
-        Metin2 PvP gündemi, server rehberleri ve duyurular.
-      </p>
-      <div className="mt-6">
+      <SectionHeading
+        level="h1"
+        title="PvP Gündem"
+        description="Server haberleri, rehberler ve meydandan duyurular."
+      />
+      <div className="mt-4">
         <BlogList posts={posts} />
       </div>
     </div>

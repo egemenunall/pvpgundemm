@@ -22,8 +22,8 @@ export function HeroSlider({ ads }: { ads: AdvertisementRow[] }) {
   const ad = ads[index];
 
   return (
-    <div className="relative overflow-hidden rounded-md border border-border bg-surface">
-      <span className="absolute left-2 top-2 z-10 rounded bg-background/80 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-text-muted">
+    <div className="relative overflow-hidden rounded-sm border border-border bg-surface">
+      <span className="absolute left-2 top-2 z-10 rounded-sm bg-background/80 px-1.5 py-0.5 text-[10px] font-medium text-text-muted">
         Reklam
       </span>
 

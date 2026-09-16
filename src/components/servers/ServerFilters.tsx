@@ -65,7 +65,7 @@ export function ServerFilters() {
             key={s.value}
             onClick={() => updateParams({ segment: s.value === "tumu" ? null : s.value })}
             className={cn(
-              "rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
+              "rounded-sm border px-3.5 py-1.5 text-sm font-semibold transition-colors",
               segment === s.value
                 ? "border-accent bg-accent text-accent-foreground"
                 : "border-border text-text-secondary hover:text-text-primary hover:border-border-strong"

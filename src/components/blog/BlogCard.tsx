@@ -3,13 +3,15 @@ import Image from "next/image";
 import { FileText } from "lucide-react";
 import type { BlogPostRow } from "@/lib/types";
 import { formatDateTR, truncate } from "@/lib/utils";
+import { FrameCorners } from "@/components/ui/frame-corners";
 
 export function BlogCard({ post }: { post: BlogPostRow }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex flex-col overflow-hidden rounded-lg border border-border-strong/55 bg-card shadow-[0_4px_14px_rgb(74_50_28/0.13)] transition-all hover:-translate-y-0.5 hover:bg-card-hover hover:shadow-[0_8px_24px_rgb(74_50_28/0.2)]"
+      className="ornate-frame ornate-card group relative flex flex-col overflow-hidden bg-card transition-colors hover:bg-card-hover"
     >
+      <FrameCorners />
       <div className="relative flex aspect-[16/9] items-center justify-center overflow-hidden border-b border-border bg-background">
         {post.cover_image_url ? (
           <Image

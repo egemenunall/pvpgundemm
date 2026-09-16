@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { ServerFilters } from "@/components/servers/ServerFilters";
 import { ServerGrid } from "@/components/servers/ServerGrid";
+import { SectionHeading } from "@/components/layout/SectionHeading";
 import { getFilteredServers, type ServerFilters as Filters } from "@/lib/data/servers";
 
 export const metadata: Metadata = {
@@ -32,18 +33,19 @@ export default async function ServerlarPage({ searchParams }: PageProps) {
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-6 sm:py-8">
-      <h1 className="text-xl font-semibold text-text-primary sm:text-2xl">Serverlar</h1>
-      <p className="mt-1 text-sm text-text-secondary">
-        {servers.length} server listeleniyor.
-      </p>
+      <SectionHeading
+        level="h1"
+        title="Serverlar"
+        description={`${servers.length} server meydanda.`}
+      />
 
-      <div className="mt-5">
+      <div className="mt-4">
         <Suspense fallback={<div className="h-24 animate-pulse rounded-md bg-surface" />}>
           <ServerFilters />
         </Suspense>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-4">
         <ServerGrid servers={servers} />
       </div>
     </div>

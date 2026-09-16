@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
+import { SectionHeading } from "@/components/layout/SectionHeading";
+import { Card } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "İletişim",
@@ -9,15 +11,15 @@ export const metadata: Metadata = {
 export default function IletisimPage() {
   return (
     <div className="mx-auto max-w-[640px] px-4 py-6 sm:px-6 sm:py-8">
-      <h1 className="text-xl font-semibold text-text-primary sm:text-2xl">İletişim</h1>
-      <p className="mt-1 text-sm text-text-secondary">
-        Server ilanı eklemek, reklam paketleri hakkında bilgi almak veya bir konuyu
-        bildirmek için bize yazın.
-      </p>
+      <SectionHeading
+        level="h1"
+        title="İletişim"
+        description="Server ilanı, reklam veya aklındaki konu için bize yaz."
+      />
 
-      <div className="mt-6 rounded-md border border-border bg-surface p-5">
+      <Card className="mt-4 p-5">
         <ContactForm />
-      </div>
+      </Card>
     </div>
   );
 }

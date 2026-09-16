@@ -11,10 +11,10 @@ export function Logo({ className }: { className?: string }) {
         className
       )}
     >
-      <span className="flex h-8 w-8 items-center justify-center rounded-md bg-accent/10 text-accent">
+      <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-border-strong bg-accent/10 text-accent">
         <Swords className="h-4 w-4" />
       </span>
-      <span className="text-[15px] font-semibold tracking-tight">
+      <span className="font-heading text-[15px] font-bold tracking-tight">
         PVP<span className="text-accent">Gündem</span>
       </span>
     </Link>

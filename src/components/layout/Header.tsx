@@ -3,6 +3,7 @@ import { Logo } from "@/components/layout/Logo";
 import { SearchBox } from "@/components/layout/SearchBox";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { MobileSearchToggle } from "@/components/layout/MobileSearchToggle";
+import { FrameCorners } from "@/components/ui/frame-corners";
 
 const NAV_LINKS = [
   { href: "/", label: "Ana Sayfa" },
@@ -14,7 +15,8 @@ const NAV_LINKS = [
 export function Header() {
   return (
     <header className="sticky top-0 z-40 px-4 py-2 sm:px-6">
-      <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-4 rounded-xl border border-border-strong/60 bg-surface/95 px-4 shadow-[0_5px_20px_rgb(74_50_28/0.13)] backdrop-blur sm:px-5">
+      <div className="ornate-frame mx-auto flex h-14 max-w-[1400px] items-center gap-4 bg-surface/95 px-4 backdrop-blur sm:px-5">
+        <FrameCorners />
         <Logo />
 
         <div className="hidden flex-1 justify-center md:flex md:max-w-md md:mx-auto">
@@ -26,7 +28,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-md px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+              className="rounded-sm px-3 py-2 text-sm font-semibold text-text-secondary transition-colors hover:bg-surface-hover hover:text-text-primary"
             >
               {link.label}
             </Link>

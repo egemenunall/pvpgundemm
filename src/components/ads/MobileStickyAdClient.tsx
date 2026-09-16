@@ -51,7 +51,7 @@ export function MobileStickyAdClient({ ad }: { ad: AdvertisementRow }) {
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface md:hidden">
       <div className="relative flex items-center">
-        <span className="absolute left-1.5 top-1.5 z-10 rounded bg-background/80 px-1 py-0.5 text-[9px] font-medium uppercase tracking-wide text-text-muted">
+        <span className="absolute left-1.5 top-1.5 z-10 rounded-sm bg-background/80 px-1 py-0.5 text-[9px] font-medium text-text-muted">
           Reklam
         </span>
         <div className="flex-1">

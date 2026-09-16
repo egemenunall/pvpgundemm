@@ -7,6 +7,7 @@ import { getServerBySlug, getAllActiveServerSlugs } from "@/lib/data/servers";
 import { VipBadge, SponsoredBadge, TypeBadge } from "@/components/servers/ServerBadge";
 import { ViewTracker } from "@/components/servers/ViewTracker";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDateTR, formatOpeningTime, relativeOpeningLabel, serverTypeLabel } from "@/lib/utils";
 
@@ -101,7 +102,9 @@ export default async function ServerDetailPage({ params }: PageProps) {
               <Eye className="h-3.5 w-3.5 text-text-muted" />
               {server.view_count.toLocaleString("tr-TR")} görüntülenme
             </span>
-            <span>{relativeOpeningLabel(server.opening_date)}</span>
+            <Badge variant="seal">
+              {relativeOpeningLabel(server.opening_date)}
+            </Badge>
           </div>
         </div>
 
@@ -109,7 +112,7 @@ export default async function ServerDetailPage({ params }: PageProps) {
           {server.website_url && (
             <Button asChild>
               <a href={server.website_url} target="_blank" rel="noopener noreferrer">
-                Server Sitesine Git
+                Servera Git
                 <ExternalLink className="h-4 w-4" />
               </a>
             </Button>
@@ -178,7 +181,7 @@ export default async function ServerDetailPage({ params }: PageProps) {
 
       <div className="mt-10">
         <Link href="/serverlar" className="text-sm text-accent hover:underline">
-          ← Tüm serverlara dön
+          ← Meydana dön
         </Link>
       </div>
     </div>

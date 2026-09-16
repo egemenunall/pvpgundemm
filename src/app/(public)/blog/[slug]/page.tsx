@@ -50,7 +50,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <article className="mx-auto max-w-[800px] px-4 py-6 sm:px-6 sm:py-8">
       <Link href="/blog" className="text-sm text-accent hover:underline">
-        ← Blog&apos;a dön
+        ← Gündeme dön
       </Link>
 
       <h1 className="mt-4 text-2xl font-semibold text-text-primary sm:text-3xl">{post.title}</h1>

@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { Inter, Cinzel } from "next/font/google";
+import { Bitter, Manrope } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+const manrope = Manrope({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-manrope",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
-/** Başlıklar için antik/klasik Latin yazı tipi */
-const cinzel = Cinzel({
-  subsets: ["latin"],
-  variable: "--font-cinzel",
+const bitter = Bitter({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-bitter",
   display: "swap",
-  weight: ["400", "600", "700"],
+  weight: ["700"],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pvpgundem.com";
@@ -50,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="tr" className={`${inter.variable} ${cinzel.variable}`}>
+    <html lang="tr" className={`${manrope.variable} ${bitter.variable}`}>
       <body className="min-h-screen antialiased">
         {children}
         <Toaster

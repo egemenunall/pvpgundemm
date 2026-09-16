@@ -4,7 +4,7 @@ import { serverTypeLabel } from "@/lib/utils";
 
 export function VipBadge() {
   return (
-    <Badge variant="accent">
+    <Badge variant="seal">
       <Star className="h-3 w-3 fill-current" />
       VIP
     </Badge>
@@ -13,7 +13,7 @@ export function VipBadge() {
 
 export function SponsoredBadge() {
   return (
-    <Badge variant="muted">
+    <Badge variant="seal">
       <Megaphone className="h-3 w-3" />
       Sponsorlu
     </Badge>

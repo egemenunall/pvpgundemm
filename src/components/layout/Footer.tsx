@@ -15,8 +15,7 @@ export function Footer() {
         <div className="max-w-sm">
           <Logo />
           <p className="mt-3 text-sm text-text-secondary">
-            Türkiye&apos;deki Metin2 PvP serverlarını takip etmek için kullanılan
-            güncel ve düzenli bir platform.
+            Metin2 PvP meydanı: bu hafta kim açılıyor, hangisi emek, hangisi WS — hepsi burada.
           </p>
         </div>
 
@@ -36,7 +35,7 @@ export function Footer() {
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-[1400px] flex-col items-start gap-2 px-4 py-4 text-xs text-text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p>© {new Date().getFullYear()} PVPGündem. Tüm hakları saklıdır.</p>
-          <p>Türkiye&apos;deki Metin2 PvP server gündemi.</p>
+          <p>Türkiye&apos;nin Metin2 PvP gündemi.</p>
         </div>
       </div>
     </footer>
